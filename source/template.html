@@ -1,0 +1,55 @@
+<div class="label default-question-text-size" dir="auto">{{{LABEL}}}</div>
+
+<!-- If there is an image specified in the media:image column, show it here -->
+{{#MEDIAIMAGE}}
+    <img src="{{MEDIAIMAGE}}" />
+{{/MEDIAIMAGE}}
+
+<!-- If there is audio specified in the media:audio column, show it here -->
+{{#MEDIAAUDIO}}
+    <audio controls controlsList="nodownload">
+        <source src="{{MEDIAAUDIO}}">
+        Your browser does not support the audio element.
+    </audio>
+{{/MEDIAAUDIO}}
+
+<!-- If there is a video specified in the media:video column, show it here -->
+{{#MEDIAVIDEO}}
+    <video width="100%" height="*" controls controlsList="nodownload">
+        <source src="{{MEDIAVIDEO}}">
+        Your browser does not support the video tag.
+    </video>
+{{/MEDIAVIDEO}}
+
+<div class="hint default-hint-text-size" dir="auto">{{{HINT}}}</div>
+
+<!-- If the field is marked read only, then only show the input box if there is a current answer. -->
+{{#READONLY}}
+    <textarea 
+    type="text"
+    id="text-field" 
+    class="response default-answer-text-size" 
+    placeholder="Your answer here..." 
+    readonly
+    {{^CURRENT_ANSWER}}style="display:none"{{/CURRENT_ANSWER}}>{{CURRENT_ANSWER}}</textarea>
+    
+{{/READONLY}}
+
+<!-- if the field is not marked read only, show the input box always. -->
+{{^READONLY}}
+<textarea 
+    type="text"
+    id="text-field" 
+    class="response default-answer-text-size"
+    {{#QUESTION_PLACEHOLDER_LABEL}}
+      placeholder="{{QUESTION_PLACEHOLDER_LABEL}}"
+    {{/QUESTION_PLACEHOLDER_LABEL}}
+    {{^QUESTION_PLACEHOLDER_LABEL}}
+      placeholder="Your answer here..."
+    {{/QUESTION_PLACEHOLDER_LABEL}}
+>{{CURRENT_ANSWER}}</textarea>
+{{/READONLY}}
+
+<div id="char-count" style="display:none" class="remaining" dir="auto"><span id="char-remaining"></span></div>
+
+<div class="hidden-text"><p></p></div>

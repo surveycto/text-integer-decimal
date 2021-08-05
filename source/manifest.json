@@ -1,0 +1,8 @@
+{
+	"name" : "Text, integer, decimal",
+	"author" : "Dobility",
+	"version": "1.0.0",
+	"supportedFieldTypes": ["text", "integer", "decimal"],
+	"hideDefaultRequiredMessage": false,
+	"hideDefaultConstraintMessage": false
+}
