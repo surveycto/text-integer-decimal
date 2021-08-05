@@ -10,62 +10,6 @@ var labelContainer = document.querySelector('.label')
 // Find the input element
 var input = document.getElementById('text-field')
 
-var countContainer = document.querySelector('#char-count')
-var remainContainer = document.querySelector('#char-remaining')
-
-var numRows = getPluginParameter('rows')
-var countChar = getPluginParameter('count')
-var charMax = getPluginParameter('max')
-var expand = getPluginParameter('expand')
-
-if (expand === 1) {
-  expand = true
-} else {
-  expand = false
-}
-
-if ((numRows == null) || (isNaN(numRows))) {
-  if (expand) {
-    numRows = 0
-  } else {
-    numRows = 3
-  }
-} else {
-  numRows = parseInt(numRows)
-  if (numRows <= 0) {
-    if (expand) {
-      numRows = 3
-    }
-  }
-  if (expand) {
-    numRows = (numRows + 1.75) * 16 // Change this based on font size
-  }
-}
-if (!expand) {
-  input.rows = numRows
-}
-
-if ((charMax == null) || (isNaN(charMax))) {
-  charMax = false
-} else {
-  charMax = parseInt(charMax)
-  input.maxLength = charMax
-}
-
-// Character counter display
-if ((countChar === 1) || ((charMax !== false) && (countChar !== 0))) {
-  countChar = true
-  countContainer.style.display = ''
-  var currentLength = input.value.length
-  if (charMax === false) {
-    remainContainer.innerHTML = currentLength
-  } else {
-    remainContainer.innerHTML = charMax - currentLength
-  }
-} else {
-  countChar = false
-}
-
 var labelChildren = labelContainer.children
 var textDir
 if (labelChildren.length === 0) {
@@ -75,31 +19,19 @@ if (labelChildren.length === 0) {
 }
 
 if (textDir === 'rtl') {
-  countContainer.style.textAlign = 'left'
   input.style.textAlign = 'right'
   input.dir = 'rtl'
 }
 
 // RESIZE TEXT BOX; method inspired by https://www.impressivewebs.com/textarea-auto-resize/
 
-if (expand) {
-  var hiddenDiv = document.querySelector('.hidden-text')
-  var hiddenText = hiddenDiv.querySelector('p')
+var hiddenDiv = document.querySelector('.hidden-text')
+var hiddenText = hiddenDiv.querySelector('p')
 
-  hiddenDiv.style.width = input.offsetWidth + 'px'
+hiddenDiv.style.width = input.offsetWidth + 'px'
 
-  input.addEventListener('input', resizeTextBox)
-  window.onload = resizeTextBox
-}
-
-// For older devices
-String.prototype.replaceAll = function (find, replace) {
-  var newString = this
-  while (newString.indexOf(find) !== -1) {
-    newString = newString.replace(find, replace)
-  }
-  return newString
-}
+input.addEventListener('input', resizeTextBox)
+window.onload = resizeTextBox
 
 function resizeTextBox () {
   hiddenDiv.style.display = 'block'
@@ -107,11 +39,7 @@ function resizeTextBox () {
   hiddenText.innerHTML = input.value.replaceAll('\n', '<br>&8203;') // The &8203; is a zero-width space, so that there is content on a blank line. This is so a blank line with nothing after it actually takes effect
   var newHeight = hiddenDiv.offsetHeight
   hiddenDiv.style.display = 'none'
-  if ((numRows === 0) || (numRows > newHeight)) {
-    input.style.height = newHeight + 'px'
-  } else {
-    input.style.height = numRows + 'px'
-  }
+  input.style.height = newHeight + 'px'
 }
 
 // Restricts input for the given textbox to the given inputFilter.
@@ -178,22 +106,6 @@ function setFocus () {
 // Save the user's response (update the current answer)
 input.oninput = function () {
   var inputValue = input.value
-
-  // Limiter for Android devices, in case too long
-  if (isAndroid && (charMax !== false) && (inputValue.length > charMax)) {
-    inputValue = inputValue.substr(0, charMax)
-    input.value = inputValue
-    input.innerHTML = inputValue
-  }
-
-  // Display character count
-  if (countChar) {
-    var inputLength = inputValue.length
-    remainContainer.innerHTML = inputLength
-    if (charMax !== false) {
-      remainContainer.innerHTML = charMax - inputLength
-    }
-  }
 
   setAnswer(inputValue)
 }
