@@ -15,6 +15,7 @@ var input = document.getElementById('text-field')
 var formattedContainer = document.querySelector('#show_formatted')
 
 var showFormatted = false
+var charMax = false
 
 var labelChildren = labelContainer.children
 var textDir
@@ -88,6 +89,7 @@ if (fieldType === 'text') {
     }
   }
 } else if (fieldType === 'integer') {
+  input.maxLength = 9
   setInputMode('numeric')
   if (!fieldProperties.READONLY) {
     setInputFilter(input, function (value) {
@@ -99,6 +101,7 @@ if (fieldType === 'text') {
     showFormatted = true
   }
 } else if (fieldType === 'decimal') {
+  input.maxLength = 15
   setInputMode('decimal')
   if (!fieldProperties.READONLY) {
     setInputFilter(input, function (value) {
@@ -113,8 +116,15 @@ if (fieldType === 'text') {
 
 // Save the user's response (update the current answer)
 input.oninput = function () {
-  resizeTextBox()
   var inputValue = input.value
+  // Limiter for Android devices, in case too long
+  if (isAndroid && (charMax !== false) && (inputValue.length > charMax)) {
+    inputValue = inputValue.substr(0, charMax)
+    input.value = inputValue
+    input.innerHTML = inputValue
+  }
+
+  resizeTextBox()
 
   setAnswer(inputValue)
   if (showFormatted) {
