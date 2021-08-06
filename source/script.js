@@ -17,6 +17,10 @@ var formattedContainer = document.querySelector('#show_formatted')
 var showFormatted = false
 var charMax = false
 
+var appearance = fieldProperties.APPEARANCE // Stores the appearance field property
+
+var actualAppearance = '' // Stores the appearance based on what is allowed. For example, only text fields can use the "numbers" appearance. Currently only used for the "numbers" appearance, but assigning for all situations for now, in case needed later
+
 var labelChildren = labelContainer.children
 var textDir
 if (labelChildren.length === 0) {
@@ -41,6 +45,7 @@ window.onload = resizeTextBox
 if (fieldType === 'text') {
   // check for standard appearance options and apply them
   if (fieldProperties.APPEARANCE.indexOf('numbers_phone') !== -1) {
+    actualAppearance = 'numbers_phone'
     setInputMode('tel')
 
     if (!fieldProperties.READONLY) {
@@ -48,7 +53,8 @@ if (fieldType === 'text') {
         return /^[0-9\-+.#* ]*$/.test(value)
       })
     }
-  } else if (fieldProperties.APPEARANCE.indexOf('numbers_decimal') !== -1) {
+  } else if (appearance.indexOf('numbers_decimal') !== -1) {
+    actualAppearance = 'numbers_decimal'
     setInputMode('numeric')
 
     // For iOS, we'll default the inputmode to 'numeric' (as defined above), unless some specific value is
@@ -80,11 +86,16 @@ if (fieldType === 'text') {
         return /^-?\d*[.,]?\d*$/.test(value)
       })
     }
-  } else if (fieldProperties.APPEARANCE.indexOf('numbers') !== -1) {
+  } else if (appearance.indexOf('numbers') !== -1) {
+    actualAppearance = 'numbers'
     setInputMode('numeric')
     if (!fieldProperties.READONLY) {
       setInputFilter(input, function (value) {
-        return /^-?[0-9]*$/.test(value)
+        if (isWebCollect) {
+          return /^-?[0-9]*$/.test(value)
+        } else {
+          return /^[-.]?[0-9]*$/.test(value) // On many devices, the dot and minus sign share the same button. This is so the button can be pressed twice to get the minus sign
+        }
       })
     }
   }
@@ -93,11 +104,16 @@ if (fieldType === 'text') {
   setInputMode('numeric')
   if (!fieldProperties.READONLY) {
     setInputFilter(input, function (value) {
-      return /^-?[0-9]*$/.test(value)
+      if (isWebCollect) {
+        return /^-?[0-9]*$/.test(value)
+      } else {
+        return /^[-.]?[0-9]*$/.test(value) // On many devices, the dot and minus sign share the same button. This is so the button can be pressed twice to get the minus sign
+      }
     })
   }
 
   if (fieldProperties.APPEARANCE.indexOf('show_formatted') !== -1) {
+    actualAppearance = 'show_formatted'
     showFormatted = true
   }
 } else if (fieldType === 'decimal') {
@@ -110,6 +126,7 @@ if (fieldType === 'text') {
   }
 
   if (fieldProperties.APPEARANCE.indexOf('show_formatted') !== -1) {
+    actualAppearance = 'show_formatted'
     showFormatted = true
   }
 }
@@ -129,6 +146,10 @@ input.oninput = function () {
   }
 
   resizeTextBox()
+
+  if (((fieldType === 'integer') || (actualAppearance === 'numbers')) && (inputValue.indexOf('.') !== -1)) { // On many devices, the dot and minus sign share the same button. This is so the button is not pressed twice to get the minus sign, meaning it remains a dot, then the dots are removed
+    inputValue = inputValue.replaceAll('.', '')
+  }
 
   setAnswer(inputValue)
   if (showFormatted) {
