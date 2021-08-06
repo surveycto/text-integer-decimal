@@ -50,5 +50,5 @@ div.hidden-text p {
 .response, div.hidden-text {
     font-family: Arial, sans-serif;
     font-size: 16px;
-    min-height: 60px;
+    min-height: 36px;
 }

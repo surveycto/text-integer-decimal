@@ -122,10 +122,19 @@ input.oninput = function () {
   }
 }
 
+// For older devices
+String.prototype.replaceAll = function (find, replace) {
+  var newString = this
+  while (newString.indexOf(find) !== -1) {
+    newString = newString.replace(find, replace)
+  }
+  return newString
+}
+
 function resizeTextBox () {
   hiddenDiv.style.display = 'block'
   hiddenDiv.style.width = input.offsetWidth + 'px' // In case the window is reshaped
-  hiddenText.innerHTML = input.value.replaceAll('\n', '<br>&8203;') // The &8203; is a zero-width space, so that there is content on a blank line. This is so a blank line with nothing after it actually takes effect
+  hiddenText.innerHTML = input.value.replaceAll('\n', '<br>' + String.fromCharCode('8203')) // The 8203 is a zero-width space, so that there is content on a blank line. This is so a blank line with nothing after it actually takes effect
   var newHeight = hiddenDiv.offsetHeight
   hiddenDiv.style.display = 'none'
   input.style.height = newHeight + 'px'
