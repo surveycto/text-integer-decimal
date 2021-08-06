@@ -1,12 +1,16 @@
 # Text, integer, decimal
 
-![Default appearance for the 'text-integer-decimal' field plug-in](extras/preview.jpg)
+<img src="extras/readme-images/text_field.png" width="300px" alt="Standard text field">
+
+|<img src="extras/readme-images/show_formatted.png" width="100px">|
+|:---:|
+|*Decimal* field with "show_formatted" *appearance*|
 
 ## Description
 
 A simple replacement for *text*, *integer*, and *decimal* fields. This can be used with all three field types, so you don't have to a different field plug-in for each field type. You can use this either for the extended functionality (see [features](#features) below), or you can use it as a starting template when creating your own field plug-in for all three of these field types.
 
-[![Download now](extras/download-button.png)](https://github.com/surveycto/text-integer-decimal/raw/master/text-integer-decimal.fieldplugin.zip)
+[![Download now](extras/readme-images/beta-release-download.jpg)](https://github.com/surveycto/text-integer-decimal/raw/master/text-integer-decimal.fieldplugin.zip)
 
 ### Features
 
@@ -21,7 +25,7 @@ This field plug-in also has a text box that expands to fit its contents, just li
 
 ### Data format
 
-The format will be text for *text* fields, and numbers for *integer* and *decimal* fields.
+The data format will be text for *text* fields, and numbers for *integer* and *decimal* fields.
 
 ## How to use
 
@@ -69,7 +73,7 @@ iOS has a less-consistent way of determining which on-screen keyboard to display
 ## More resources
 
 * **Test form**  
-This form will help you explore the differences between this field plug-in and the default text field.  
+This form will help you view the field plug-in with different field types and *appearance*s.  
 [Download test form](https://github.com/surveycto/text-integer-decimal/raw/main/extras/test-form/Text%2C%20integer%2C%20decimal%20test%20form.xlsx)
 
 You can also use the test forms for the [baseline-text](https://github.com/surveycto/baseline-text/blob/master/README.md), [baseline-integer](https://github.com/surveycto/baseline-integer/blob/master/README.md), and [baseline-integer](https://github.com/surveycto/baseline-integer/blob/master/README.md) field plug-ins. Just be sure to update the name of the field plug-in in the *appearance* of each field (e.g. change "baseline-text" to "text-integer-decimal").
