@@ -114,6 +114,10 @@ if (fieldType === 'text') {
   }
 }
 
+if (showFormatted) { // Show formatted when field first opens
+  formattedContainer.innerText = formatNumber(input.value)
+}
+
 // Save the user's response (update the current answer)
 input.oninput = function () {
   var inputValue = input.value
@@ -214,7 +218,7 @@ function formatNumber (number) {
     decimalPart = numParts[1]
   }
 
-  for (var n = number.length; n > 3; n -= 3) { // Formats the part before the 
+  for (var n = number.length; n > 3; n -= 3) { // Formats the part before the decimal point
     formattedNumber = ',' + number.substr(n - 3, 3) + formattedNumber
   }
   formattedNumber = number.substr(0, n) + formattedNumber
@@ -222,11 +226,9 @@ function formatNumber (number) {
   if (isDecimal) {
     formattedNumber += '.'
     var decLength = decimalPart.length
-    if (decLength > 2) {
-      formattedNumber += decimalPart.substr(0, 2)
-      for (var n = 2; n < decLength; n += 3) {
-        formattedNumber += ',' + decimalPart.substr(n, 3)
-      }
+    formattedNumber += decimalPart.substr(0, 2)
+    for (var n = 2; n < decLength; n += 3) {
+      formattedNumber += ',' + decimalPart.substr(n, 3)
     }
   }
   if (negativeNum) {
