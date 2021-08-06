@@ -149,6 +149,8 @@ input.oninput = function () {
 
   if (((fieldType === 'integer') || (actualAppearance === 'numbers')) && (inputValue.indexOf('.') !== -1)) { // On many devices, the dot and minus sign share the same button. This is so the button is not pressed twice to get the minus sign, meaning it remains a dot, then the dots are removed
     inputValue = inputValue.replaceAll('.', '')
+  } else if (((fieldType === 'integer') || (fieldType === 'decimal')) && isNaN(inputValue)) { // If it should be a number, but it isn't
+    inputValue = ''
   }
 
   setAnswer(inputValue)
