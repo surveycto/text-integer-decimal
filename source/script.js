@@ -5,10 +5,16 @@ var isWebCollect = (document.body.className.indexOf('web-collect') >= 0)
 var isAndroid = (document.body.className.indexOf('android-collect') >= 0)
 var isIOS = (document.body.className.indexOf('ios-collect') >= 0)
 
+var fieldType = fieldProperties.FIELDTYPE
+
 var labelContainer = document.querySelector('.label')
 
 // Find the input element
 var input = document.getElementById('text-field')
+
+var formattedContainer = document.querySelector('#show_formatted')
+
+var showFormatted = false
 
 var labelChildren = labelContainer.children
 var textDir
@@ -28,10 +34,93 @@ if (textDir === 'rtl') {
 var hiddenDiv = document.querySelector('.hidden-text')
 var hiddenText = hiddenDiv.querySelector('p')
 
-hiddenDiv.style.width = input.offsetWidth + 'px'
-
-input.addEventListener('input', resizeTextBox)
+hiddenDiv.style.width = input.offsetWidth + 'px' // Might be okay to delete
 window.onload = resizeTextBox
+
+if (fieldType === 'text') {
+  // check for standard appearance options and apply them
+  if (fieldProperties.APPEARANCE.indexOf('numbers_phone') !== -1) {
+    setInputMode('tel')
+
+    if (!fieldProperties.READONLY) {
+      setInputFilter(input, function (value) {
+        return /^[0-9\-+.#* ]*$/.test(value)
+      })
+    }
+  } else if (fieldProperties.APPEARANCE.indexOf('numbers_decimal') !== -1) {
+    setInputMode('numeric')
+
+    // For iOS, we'll default the inputmode to 'numeric' (as defined above), unless some specific value is
+    // passed as plug-in parameter.
+    if (isIOS) {
+      var inputModeIOS = getPluginParameter('inputmode-ios')
+      if (inputModeIOS !== undefined) {
+        setInputMode(inputModeIOS)
+      }
+    } else if (isAndroid) {
+      // For Android, we'll default the inputmode to 'numeric' (as defined above),
+      // unless some specific value is passed as plug-in parameter.
+      var inputModeAndroid = getPluginParameter('inputmode-android')
+      if (inputModeAndroid !== undefined) {
+        setInputMode(inputModeAndroid)
+      }
+    } else if (isWebCollect) {
+      // For WebCollect, we'll default the inputmode to 'numeric' (as defined above),
+      // unless some specific value is passed as plug-in parameter.
+      var inputModeWebCollect = getPluginParameter('inputmode-web')
+      if (inputModeWebCollect !== undefined) {
+        setInputMode(inputModeWebCollect)
+      }
+    }
+
+    // If the field is not marked as readonly, then restrict input to decimal only.
+    if (!fieldProperties.READONLY) {
+      setInputFilter(input, function (value) {
+        return /^-?\d*[.,]?\d*$/.test(value)
+      })
+    }
+  } else if (fieldProperties.APPEARANCE.indexOf('numbers') !== -1) {
+    setInputMode('numeric')
+    if (!fieldProperties.READONLY) {
+      setInputFilter(input, function (value) {
+        return /^-?[0-9]*$/.test(value)
+      })
+    }
+  }
+} else if (fieldType === 'integer') {
+  setInputMode('numeric')
+  if (!fieldProperties.READONLY) {
+    setInputFilter(input, function (value) {
+      return /^-?[0-9]*$/.test(value)
+    })
+  }
+
+  if (fieldProperties.APPEARANCE.indexOf('show_formatted') !== -1) {
+    showFormatted = true
+  }
+} else if (fieldType === 'decimal') {
+  setInputMode('decimal')
+  if (!fieldProperties.READONLY) {
+    setInputFilter(input, function (value) {
+      return /^-?\d*[.,]?\d*$/.test(value)
+    })
+  }
+
+  if (fieldProperties.APPEARANCE.indexOf('show_formatted') !== -1) {
+    showFormatted = true
+  }
+}
+
+// Save the user's response (update the current answer)
+input.oninput = function () {
+  resizeTextBox()
+  var inputValue = input.value
+
+  setAnswer(inputValue)
+  if (showFormatted) {
+    formattedContainer.innerText = formatNumber(inputValue)
+  }
+}
 
 function resizeTextBox () {
   hiddenDiv.style.display = 'block'
@@ -76,6 +165,57 @@ function setInputMode (attributeValue) {
   }
 }
 
+function formatNumber (number) {
+  if (isNaN(number)) { // If not a number, return nothing
+    return ''
+  }
+  number = parseFloat(number) // Remove leading and ending 0s
+  var formattedNumber = ''
+
+  var negativeNum
+  if (number < 0) { // Remove negative sign, will be re-added later
+    negativeNum = true
+    number = String(number).substr(1)
+  } else {
+    negativeNum = false
+    number = String(number)
+  }
+
+  var isDecimal // If decimal, divides into two parts, before and after the decimal, which will be addressed separately.
+  var decimalPart
+  if (number.indexOf('.') === -1) {
+    isDecimal = false
+  } else {
+    isDecimal = true
+    var numParts = number.split('.')
+    if (numParts.length !== 2) { // Has multiple decimal points, so return nothing for now
+      return ''
+    }
+    number = numParts[0]
+    decimalPart = numParts[1]
+  }
+
+  for (var n = number.length; n > 3; n -= 3) { // Formats the part before the 
+    formattedNumber = ',' + number.substr(n - 3, 3) + formattedNumber
+  }
+  formattedNumber = number.substr(0, n) + formattedNumber
+
+  if (isDecimal) {
+    formattedNumber += '.'
+    var decLength = decimalPart.length
+    if (decLength > 2) {
+      formattedNumber += decimalPart.substr(0, 2)
+      for (var n = 2; n < decLength; n += 3) {
+        formattedNumber += ',' + decimalPart.substr(n, 3)
+      }
+    }
+  }
+  if (negativeNum) {
+    formattedNumber = '-' + formattedNumber
+  }
+  return formattedNumber
+}
+
 // If the field label or hint contain any HTML that isn't in the form definition, then the < and > characters will have been replaced by their HTML character entities, and the HTML won't render. We need to turn those HTML entities back to actual < and > characters so that the HTML renders properly. This will allow you to render HTML from field references in your field label or hint.
 function unEntity (str) {
   return str.replace(/&lt;/g, '<').replace(/&gt;/g, '>')
@@ -100,62 +240,5 @@ function setFocus () {
     if (window.showSoftKeyboard) {
       window.showSoftKeyboard()
     }
-  }
-}
-
-// Save the user's response (update the current answer)
-input.oninput = function () {
-  var inputValue = input.value
-
-  setAnswer(inputValue)
-}
-
-// check for standard appearance options and apply them
-if (fieldProperties.APPEARANCE.indexOf('numbers_phone') !== -1) {
-  setInputMode('tel')
-
-  if (!fieldProperties.READONLY) {
-    setInputFilter(input, function (value) {
-      return /^[0-9\-+.#* ]*$/.test(value)
-    })
-  }
-} else if (fieldProperties.APPEARANCE.indexOf('numbers_decimal') !== -1) {
-  setInputMode('numeric')
-
-  // For iOS, we'll default the inputmode to 'numeric' (as defined above), unless some specific value is
-  // passed as plug-in parameter.
-  if (isIOS) {
-    var inputModeIOS = getPluginParameter('inputmode-ios')
-    if (inputModeIOS !== undefined) {
-      setInputMode(inputModeIOS)
-    }
-  } else if (isAndroid) {
-    // For Android, we'll default the inputmode to 'numeric' (as defined above),
-    // unless some specific value is passed as plug-in parameter.
-    var inputModeAndroid = getPluginParameter('inputmode-android')
-    if (inputModeAndroid !== undefined) {
-      setInputMode(inputModeAndroid)
-    }
-  } else if (isWebCollect) {
-    // For WebCollect, we'll default the inputmode to 'numeric' (as defined above),
-    // unless some specific value is passed as plug-in parameter.
-    var inputModeWebCollect = getPluginParameter('inputmode-web')
-    if (inputModeWebCollect !== undefined) {
-      setInputMode(inputModeWebCollect)
-    }
-  }
-
-  // If the field is not marked as readonly, then restrict input to decimal only.
-  if (!fieldProperties.READONLY) {
-    setInputFilter(input, function (value) {
-      return /^-?\d*[.,]?\d*$/.test(value)
-    })
-  }
-} else if (fieldProperties.APPEARANCE.indexOf('numbers') !== -1) {
-  setInputMode('numeric')
-  if (!fieldProperties.READONLY) {
-    setInputFilter(input, function (value) {
-      return /^-?[0-9]*$/.test(value)
-    })
   }
 }
