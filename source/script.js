@@ -118,7 +118,7 @@ if (fieldType === 'text') {
   }
 } else if (fieldType === 'decimal') {
   input.maxLength = 15
-  setInputMode('decimal')
+  setInputMode('numeric')
   if (!fieldProperties.READONLY) {
     setInputFilter(input, function (value) {
       return /^-?\d*[.,]?\d*$/.test(value)
