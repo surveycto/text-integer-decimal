@@ -189,7 +189,7 @@ function setInputMode (attributeValue) {
 }
 
 function formatNumber (number) {
-  if (isNaN(number)) { // If not a number, return nothing
+  if (isNaN(number) || (number === '')) { // If not a number, return nothing
     return ''
   }
   number = parseFloat(number) // Remove leading and ending 0s
