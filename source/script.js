@@ -91,6 +91,7 @@ if (fieldType === 'text') {
   if (fieldProperties.APPEARANCE.indexOf('show_formatted') !== -1) {
     actualAppearance = 'show_formatted'
     showFormatted = true
+    formattedContainer.style.display = 'inline'
   }
 } else if (fieldType === 'decimal') {
   charMax = 15
@@ -105,6 +106,7 @@ if (fieldType === 'text') {
   if (fieldProperties.APPEARANCE.indexOf('show_formatted') !== -1) {
     actualAppearance = 'show_formatted'
     showFormatted = true
+    formattedContainer.style.display = 'inline'
   }
 }
 

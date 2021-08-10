@@ -37,6 +37,10 @@
     border: 1px solid rgba(0, 0, 0, .3);
 }
 
+#show_formatted {
+    display: none;
+}
+
 div.hidden-text {
     display: none;
     visibility: hidden;
