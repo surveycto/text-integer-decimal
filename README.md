@@ -8,7 +8,7 @@
 
 ## Description
 
-A simple replacement for *text*, *integer*, and *decimal* fields. This can be used with all three field types, so you don't have to a different field plug-in for each field type. You can use this either for the extended functionality (see [features](#features) below), or you can use it as a starting template when creating your own field plug-in for all three of these field types.
+A simple replacement for *text*, *integer*, and *decimal* fields. This can be used with all three field types, so you don't have to use a different field plug-in for each field type. You can use this either for the extended functionality (see [features](#features) below), or you can use it as a starting template when creating your own field plug-in for all three of these field types.
 
 [![Download now](extras/readme-images/beta-release-download.jpg)](https://github.com/surveycto/text-integer-decimal/raw/master/text-integer-decimal.fieldplugin.zip)
 
@@ -17,7 +17,7 @@ A simple replacement for *text*, *integer*, and *decimal* fields. This can be us
 In addition to supporting the default SurveyCTO features listed below, this field plug-in offers the following expanded functionality:
 
 1. **Support for HTML in field references** <br>
-    If you reference another field's value in either the field *label* or field *hint*, and that referenced value contains HTML, the HTML will be correctly rendered.
+    If you reference another field's value in either the field *label* or *hint*, and that referenced value contains HTML, the HTML will be correctly rendered.
 1. **Better support for RTL languages** <br>
     The field label, hint, and input will now be justified to the right when they contain an RTL language.
 
@@ -28,7 +28,7 @@ This field plug-in also has a text box that expands to fit its contents, just li
 For full use of all features on Android, Android 7 or up is required. However, the field plug-in will still work well on older versions of Android. Here is a list of limitations on older versions of Android:
 
 * Different appearances ("numbers", "numbers_decimal", and "numbers_phone") and *integer* and *decimal* fields will not display the correct keyboard. However, the fields will ensure only the correct characters can be entered (e.g. only integers).
-* Box will not completely expand to fit all content, but it will be close, within a few pixels.
+* The field for data entry will not completely expand to fit all content, but it will be close, within a few pixels.
 
 Because web browsers and iOS devices are kept more up-to-date with the latest features, nearly all web browsers and iOS devices should support the field plug-in, but test it on your collection device beforehand to be sure.
 
