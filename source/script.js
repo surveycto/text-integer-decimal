@@ -15,12 +15,13 @@ var input = document.getElementById('text-field')
 var formattedContainer = document.querySelector('#show_formatted')
 
 var showFormatted = false
-var charMax = false
+var charMax = false // Used on Android, where "textarea" max does not always work
 
 var appearance = fieldProperties.APPEARANCE // Stores the appearance field property
 
 var actualAppearance = '' // Stores the appearance based on what is allowed. For example, only text fields can use the "numbers" appearance. Currently only used for the "numbers" appearance, but assigning for all situations for now, in case needed later
 
+// Text alignment for RTL like Arabic
 var labelChildren = labelContainer.children
 var textDir
 if (labelChildren.length === 0) {
@@ -28,17 +29,14 @@ if (labelChildren.length === 0) {
 } else {
   textDir = getComputedStyle(labelChildren[0]).direction
 }
-
 if (textDir === 'rtl') {
   input.style.textAlign = 'right'
   input.dir = 'rtl'
 }
 
 // RESIZE TEXT BOX; method inspired by https://www.impressivewebs.com/textarea-auto-resize/
-
 var hiddenDiv = document.querySelector('.hidden-text')
 var hiddenText = hiddenDiv.querySelector('p')
-
 hiddenDiv.style.width = input.offsetWidth + 'px' // Might be okay to delete
 window.onload = resizeTextBox
 
@@ -156,7 +154,7 @@ input.oninput = function () {
   }
 
   setAnswer(inputValue)
-  if (showFormatted) {
+  if (showFormatted) { // For "show_formatted" appearance
     formattedContainer.innerText = formatNumber(inputValue)
   }
 }
@@ -213,6 +211,7 @@ function setInputMode (attributeValue) {
   }
 }
 
+// Format the number with commas so easier to read, and display below the field input
 function formatNumber (number) {
   if (isNaN(number) || (number === '')) { // If not a number, return nothing
     return ''
@@ -248,7 +247,7 @@ function formatNumber (number) {
   }
   formattedNumber = number.substr(0, n) + formattedNumber
 
-  if (isDecimal) {
+  if (isDecimal) { // Formats part after decimal point
     formattedNumber += '.'
     var decLength = decimalPart.length
     formattedNumber += decimalPart.substr(0, 2)
@@ -256,7 +255,7 @@ function formatNumber (number) {
       formattedNumber += ',' + decimalPart.substr(n, 3)
     }
   }
-  if (negativeNum) {
+  if (negativeNum) { // Re-adds the negative sign
     formattedNumber = '-' + formattedNumber
   }
   return formattedNumber
