@@ -100,8 +100,8 @@ if (fieldType === 'text') {
     }
   }
 } else if (fieldType === 'integer') {
-  input.maxLength = 9
   charMax = 9
+  input.maxLength = charMax
   setInputMode('numeric')
   if (!fieldProperties.READONLY) {
     setInputFilter(input, function (value) {
@@ -118,8 +118,8 @@ if (fieldType === 'text') {
     showFormatted = true
   }
 } else if (fieldType === 'decimal') {
-  input.maxLength = 15
   charMax = 15
+  input.maxLength = charMax
   setInputMode('numeric')
   if (!fieldProperties.READONLY) {
     setInputFilter(input, function (value) {
