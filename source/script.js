@@ -55,29 +55,6 @@ if (fieldType === 'text') {
     actualAppearance = 'numbers_decimal'
     setInputMode('numeric')
 
-    // For iOS, we'll default the inputmode to 'numeric' (as defined above), unless some specific value is
-    // passed as plug-in parameter.
-    if (isIOS) {
-      var inputModeIOS = getPluginParameter('inputmode-ios')
-      if (inputModeIOS !== undefined) {
-        setInputMode(inputModeIOS)
-      }
-    } else if (isAndroid) {
-      // For Android, we'll default the inputmode to 'numeric' (as defined above),
-      // unless some specific value is passed as plug-in parameter.
-      var inputModeAndroid = getPluginParameter('inputmode-android')
-      if (inputModeAndroid !== undefined) {
-        setInputMode(inputModeAndroid)
-      }
-    } else if (isWebCollect) {
-      // For WebCollect, we'll default the inputmode to 'numeric' (as defined above),
-      // unless some specific value is passed as plug-in parameter.
-      var inputModeWebCollect = getPluginParameter('inputmode-web')
-      if (inputModeWebCollect !== undefined) {
-        setInputMode(inputModeWebCollect)
-      }
-    }
-
     // If the field is not marked as readonly, then restrict input to decimal only.
     if (!fieldProperties.READONLY) {
       setInputFilter(input, function (value) {
@@ -128,6 +105,29 @@ if (fieldType === 'text') {
   if (fieldProperties.APPEARANCE.indexOf('show_formatted') !== -1) {
     actualAppearance = 'show_formatted'
     showFormatted = true
+  }
+}
+
+// For iOS, we'll default the inputmode to 'numeric' (as defined above), unless some specific value is
+// passed as plug-in parameter.
+if (isIOS) {
+  var inputModeIOS = getPluginParameter('inputmode-ios')
+  if (inputModeIOS !== undefined) {
+    setInputMode(inputModeIOS)
+  }
+} else if (isAndroid) {
+  // For Android, we'll default the inputmode to 'numeric' (as defined above),
+  // unless some specific value is passed as plug-in parameter.
+  var inputModeAndroid = getPluginParameter('inputmode-android')
+  if (inputModeAndroid !== undefined) {
+    setInputMode(inputModeAndroid)
+  }
+} else if (isWebCollect) {
+  // For WebCollect, we'll default the inputmode to 'numeric' (as defined above),
+  // unless some specific value is passed as plug-in parameter.
+  var inputModeWebCollect = getPluginParameter('inputmode-web')
+  if (inputModeWebCollect !== undefined) {
+    setInputMode(inputModeWebCollect)
   }
 }
 
