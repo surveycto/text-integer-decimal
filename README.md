@@ -32,7 +32,7 @@ For full use of all features on Android, Android 7 or up is required. However, t
 
 Because web browsers and iOS devices are kept more up-to-date with the latest features, nearly all web browsers and iOS devices should support the field plug-in, but test it on your collection device beforehand to be sure.
 
-### Data format
+## Data format
 
 The data format will be text for *text* fields, and numbers for *integer* and *decimal* fields.
 
