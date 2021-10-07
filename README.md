@@ -23,6 +23,10 @@ In addition to supporting the default SurveyCTO features listed below, this fiel
 
 This field plug-in also has a text box that expands to fit its contents, just like the [text-box](https://github.com/surveycto/text-box/blob/main/README.md) field plug-in.
 
+### Data format
+
+The data format will be text for *text* fields, and numbers for *integer* and *decimal* fields.
+
 ## Requirements
 
 For full use of all features on Android, Android 7 or up is required. However, the field plug-in will still work well on older versions of Android. Here is a list of limitations on older versions of Android:
@@ -31,10 +35,6 @@ For full use of all features on Android, Android 7 or up is required. However, t
 * The field for data entry will not completely expand to fit all content, but it will be close, within a few pixels.
 
 Because web browsers and iOS devices are kept more up-to-date with the latest features, nearly all web browsers and iOS devices should support the field plug-in, but test it on your collection device beforehand to be sure.
-
-## Data format
-
-The data format will be text for *text* fields, and numbers for *integer* and *decimal* fields.
 
 ## How to use
 
