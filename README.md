@@ -10,7 +10,7 @@
 
 A simple replacement for *text*, *integer*, and *decimal* fields. This can be used with all three field types, so you don't have to use a different field plug-in for each field type. You can use this either for the extended functionality (see [features](#features) below), or you can use it as a starting template when creating your own field plug-in for all three of these field types.
 
-[![Download now](extras/readme-images/beta-release-download.jpg)](https://github.com/surveycto/text-integer-decimal/raw/master/text-integer-decimal.fieldplugin.zip)
+[![Download now](extras/readme-images/beta-release-download.jpg)](https://github.com/surveycto/text-integer-decimal/raw/main/text-integer-decimal.fieldplugin.zip)
 
 ### Features
 
