@@ -72,12 +72,14 @@ For more information about developing your own field plug-ins, please read the [
 
 ### Parameters
 
-**Note about the `numbers_decimal` appearance on iOS:**  
-iOS has a less-consistent way of determining which on-screen keyboard to display than Android. If you are using this plug-in with the `numbers_decimal` appearance, you should test your form on the actual iOS device that you plan on using. If the wrong keyboard appears (for example, if there is no decimal button available), you may supply an optional parameter to the plug-in to set the keyboard type manually. 
+**Note about the keyboard on iOS:**  
+iOS has a less-consistent way of determining which on-screen keyboard to display than Android. If you plan on using this field plug-in on iOS, you should test your form on the actual iOS device that you plan on using. If the wrong keyboard appears (for example, if there is no minus button available), you may supply an optional parameter to the plug-in to set the keyboard type manually.
 
 | Parameter key | Parameter value |
 | --- | --- |
 | `inputmode-ios`, `inputmode-android`, `inputmode-web` (all optional) | Possible values: `none`, `text`, `decimal`, `numeric`, `tel`, `search`, `email`, `url`. [Click here for more information about the inputmode attribute.](https://css-tricks.com/everything-you-ever-wanted-to-know-about-inputmode)|
+
+While the `inputmode-ios` parameter is the most important, you can also use the `inputmode-android` and `inputmode-web` parameters to change the keyboard for that field in Android and web forms, respectively.
 
 ## More resources
 
