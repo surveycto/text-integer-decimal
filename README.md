@@ -40,7 +40,7 @@ Because web browsers and iOS devices are kept more up-to-date with the latest fe
 
 ### Getting started
 
-**To use this plug-in as-is**, just download the [text-integer-decimal.fieldplugin.zip](https://github.com/surveycto/text-integer-decimal/raw/main/extras/test-form/Text%2C%20integer%2C%20decimal%20test%20form.xlsx) file from this repo, specify this field plug-in as a custom field appearance in the form design (like in the [test form](https://github.com/surveycto/text-integer-decimal/raw/main/extras/test-form/Text%2C%20integer%2C%20decimal%20test%20form.xlsx)), and attach it to your form. For more details about using field plug-ins, please read the [user documentation](https://docs.surveycto.com/02-designing-forms/03-advanced-topics/06.using-field-plug-ins.html).
+**To use this plug-in as-is**, just download the [text-integer-decimal.fieldplugin.zip](https://github.com/surveycto/text-integer-decimal/raw/main/text-integer-decimal.fieldplugin.zip) file from this repo, specify this field plug-in as a custom field appearance in the form design (like in the [test form](https://github.com/surveycto/text-integer-decimal/raw/main/extras/test-form/Text%2C%20integer%2C%20decimal%20test%20form.xlsx)), and attach it to your form. For more details about using field plug-ins, please read the [user documentation](https://docs.surveycto.com/02-designing-forms/03-advanced-topics/06.using-field-plug-ins.html).
 
 **To create your own** field plug-in using this as a template, follow these steps:
 
